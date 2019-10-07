@@ -1,0 +1,24 @@
+{
+  "name": "task-planner-backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {},
+  "devDependencies": {
+    "gradle": "^1.0.9"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jcamilovelandiab/task-planner-backend.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jcamilovelandiab/task-planner-backend/issues"
+  },
+  "homepage": "https://github.com/jcamilovelandiab/task-planner-backend#readme"
+}

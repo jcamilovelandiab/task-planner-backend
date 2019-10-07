@@ -1,9 +1,26 @@
 package taskplanner.app.apirest.entities;
 
-public class User {
-    String fullname;
-    String email;
-    String password;
+import java.io.Serializable;
+import lombok.Setter;
+import lombok.ToString;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
-    public User(){}
+@Getter
+@Setter
+@ToString
+@AllArgsConstructor
+@NoArgsConstructor
+public class User implements Serializable {
+
+    /**
+     *
+     */
+    private static final long serialVersionUID = 1L;
+    private String id;
+    private String fullName;
+    private String email;
+    private String password;
+
 }
