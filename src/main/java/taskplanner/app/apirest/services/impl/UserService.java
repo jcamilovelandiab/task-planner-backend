@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
+import taskplanner.app.apirest.entities.Login;
 import taskplanner.app.apirest.entities.User;
 import taskplanner.app.apirest.exception.TaskPlannerException;
 import taskplanner.app.apirest.repositories.IUserRepository;
@@ -41,6 +42,11 @@ public class UserService implements IUserServices {
     @Override
     public List<User> getUsers() throws TaskPlannerException {
         return userRepository.findAll();
+    }
+
+    @Override
+    public boolean login(Login login) throws TaskPlannerException {
+        return false;
     }
 
 }

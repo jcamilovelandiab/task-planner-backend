@@ -1,10 +1,11 @@
 package taskplanner.app.apirest.controller;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import taskplanner.app.apirest.entities.Login;
 import taskplanner.app.apirest.entities.User;
 import taskplanner.app.apirest.services.IUserServices;
 
@@ -14,6 +15,19 @@ import taskplanner.app.apirest.services.IUserServices;
 public class UserController {
     @Autowired
     IUserServices userServices;
+
+    @PostMapping("/login")
+	public ResponseEntity<?> login(@RequestBody Login login){
+		try {
+			if(userServices.login(login)){
+                return new ResponseEntity<>("ERROR", HttpStatus.NOT_ACCEPTABLE);
+            }
+			return new ResponseEntity<>("OK",HttpStatus.OK);
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			return new ResponseEntity<>("ERROR", HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
 
     @GetMapping
     public ResponseEntity<?> getUsers() {
