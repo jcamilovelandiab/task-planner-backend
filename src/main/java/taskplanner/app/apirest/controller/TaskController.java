@@ -3,7 +3,6 @@ package taskplanner.app.apirest.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.http.HttpStatus;
 import taskplanner.app.apirest.entities.Task;
 import taskplanner.app.apirest.services.ITaskServices;
@@ -12,7 +11,7 @@ import taskplanner.app.apirest.services.ITaskServices;
 @RequestMapping(value = "v1/tasks")
 @CrossOrigin(value = "*")
 public class TaskController {
-    
+
     @Autowired
     ITaskServices taskServices;
 
