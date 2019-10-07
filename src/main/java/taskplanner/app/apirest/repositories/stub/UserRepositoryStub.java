@@ -45,6 +45,8 @@ public class UserRepositoryStub implements IUserRepository {
         }
         User user = users.get(entity.getId());
         user = entity;
+        users.remove(user.getId());
+        users.put(user.getId(), user);
         return user;
     }
 

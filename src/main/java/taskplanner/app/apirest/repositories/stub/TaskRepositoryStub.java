@@ -67,7 +67,11 @@ public class TaskRepositoryStub implements ITaskRepository {
         if(!tasks.containsKey(entity.getId())){
             throw new TaskPlannerException("This task does not exist.");
         }
-        Task task = tasks.get(entity.getId()); task=entity;
+        
+        Task task = tasks.get(entity.getId());
+        task=entity;
+        tasks.remove(task.getId());
+        tasks.put(task.getId(), task);
         return task;
     }
 
