@@ -1,10 +1,8 @@
 package taskplanner.app.apirest.repositories.impl;
 
-import taskplanner.app.apirest.entities.Login;
 import taskplanner.app.apirest.entities.User;
 import taskplanner.app.apirest.exception.TaskPlannerException;
 import taskplanner.app.apirest.repositories.IUserRepository;
-
 import java.util.List;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
@@ -40,10 +38,5 @@ public class UserRepository implements IUserRepository {
     @Override
     public void remove(String pkEntity) throws TaskPlannerException {
 
-    }
-
-    @Override
-    public boolean login(Login login) throws TaskPlannerException {
-        return false;
     }
 }

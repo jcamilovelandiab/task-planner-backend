@@ -1,6 +1,5 @@
 package taskplanner.app.apirest.repositories.stub;
 
-import taskplanner.app.apirest.entities.Login;
 import taskplanner.app.apirest.entities.User;
 import taskplanner.app.apirest.exception.TaskPlannerException;
 import taskplanner.app.apirest.repositories.IUserRepository;
@@ -17,7 +16,7 @@ import org.springframework.stereotype.Component;
 @Qualifier("userRepositoryStub")
 public class UserRepositoryStub implements IUserRepository {
 
-    Map<String, User> users = new HashMap<String, User>();;
+    Map<String, User> users = new HashMap<String, User>();
 
     @Override
     public List<User> findAll() throws TaskPlannerException {
@@ -64,17 +63,19 @@ public class UserRepositoryStub implements IUserRepository {
     }
 
     @Override
-    public boolean login(Login login) throws TaskPlannerException {
-        
-        boolean isRegistered = false;
+    public User findByEmail(String userEmail) throws TaskPlannerException {
+        User user = null;
         for (Map.Entry<String, User> entry : users.entrySet()) {
-            User user = entry.getValue();
-            if(user.getEmail().equals(login.getEmail()) && 
-                user.getPassword().equals(login.getPassword())){
-                    isRegistered = true; break;
+            User u = entry.getValue();
+            if (u.getEmail().equals(userEmail)) {
+                user = u;
+                break;
             }
         }
-        
-        return isRegistered;
+        if (user == null) {
+            throw new TaskPlannerException("This user does not exist");
+        }
+        return user;
     }
+
 }
