@@ -66,6 +66,9 @@ public class UserController {
     @PostMapping
     public ResponseEntity<?> createUser(@RequestBody User user) {
         try {
+            if(user.getEmail()==null || user.getId()==null || user.getFullName()==null || user.getPassword()==null){
+                return new ResponseEntity<>("Invalid user creation. Please fill in id, fullName, email, and password.", HttpStatus.BAD_REQUEST);
+            }
             User u = userServices.createUser(user);
             if (u == null)
                 return new ResponseEntity<>("ERROR", HttpStatus.INTERNAL_SERVER_ERROR);
