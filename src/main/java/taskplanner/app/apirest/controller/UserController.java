@@ -3,6 +3,7 @@ package taskplanner.app.apirest.controller;
 import javax.servlet.ServletException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.jersey.JerseyProperties.Servlet;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +19,9 @@ import java.util.Date;
 @RequestMapping(value = "v1/users")
 @CrossOrigin(value = "*")
 public class UserController {
+
     @Autowired
+    @Qualifier("userService")
     IUserServices userServices;
 
     @PostMapping("/login")

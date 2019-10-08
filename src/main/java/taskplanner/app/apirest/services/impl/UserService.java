@@ -10,7 +10,7 @@ import taskplanner.app.apirest.services.IUserServices;
 
 import java.util.List;
 
-@Component
+@Component("userService")
 public class UserService implements IUserServices {
 
     @Autowired

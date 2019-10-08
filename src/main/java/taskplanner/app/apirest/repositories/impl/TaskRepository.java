@@ -14,7 +14,6 @@ import org.springframework.stereotype.Component;
 @Qualifier("taskRepository")
 public class TaskRepository implements ITaskRepository {
 
-
     @Override
     public List<Task> findTasksByUserId(String userId) throws TaskPlannerException {
         return null;

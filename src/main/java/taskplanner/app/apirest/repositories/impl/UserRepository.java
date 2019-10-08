@@ -39,4 +39,9 @@ public class UserRepository implements IUserRepository {
     public void remove(String pkEntity) throws TaskPlannerException {
 
     }
+
+    @Override
+    public User findByEmail(String userEmail) throws TaskPlannerException {
+        return null;
+    }
 }
