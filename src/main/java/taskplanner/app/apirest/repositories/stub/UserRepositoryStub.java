@@ -34,7 +34,7 @@ public class UserRepositoryStub implements IUserRepository {
     @Override
     public User save(User entity) throws TaskPlannerException {
         if (users.containsKey(entity.getUsername())) {
-            throw new TaskPlannerException("This user already exists");
+            throw new TaskPlannerException("This username has already been taken");
         }
         users.put(entity.getUsername(), entity);
         return users.get(entity.getUsername());

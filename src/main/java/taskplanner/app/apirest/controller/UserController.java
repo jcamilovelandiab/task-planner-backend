@@ -69,6 +69,11 @@ public class UserController {
             if(user.getEmail()==null || user.getUsername()==null || user.getFullName()==null || user.getPassword()==null) {
                 return new ResponseEntity<>("Invalid user creation. Please fill in username, fullName, email, and password.", HttpStatus.BAD_REQUEST);
             }
+            try{
+                User u = userServices.getUserByEmail(user.getEmail());
+                if(u!=null) return new ResponseEntity<>("This email is already associated with an account", HttpStatus.BAD_REQUEST);
+            }catch (Exception e){
+            }
             User u = userServices.createUser(user);
             if (u == null)
                 return new ResponseEntity<>("ERROR", HttpStatus.INTERNAL_SERVER_ERROR);
