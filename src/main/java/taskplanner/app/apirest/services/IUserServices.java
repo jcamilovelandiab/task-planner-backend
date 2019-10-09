@@ -14,9 +14,8 @@ public interface IUserServices {
 
     void removeUser(String userId) throws TaskPlannerException;
 
-    User getUserById(String userId) throws TaskPlannerException;
-
     User getUserByEmail(String userEmail) throws TaskPlannerException;
+    User getUserByUsername(String username) throws TaskPlannerException;
 
     List<User> getUsers() throws TaskPlannerException;
 

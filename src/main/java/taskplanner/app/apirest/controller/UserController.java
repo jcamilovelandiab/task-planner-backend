@@ -54,10 +54,10 @@ public class UserController {
         }
     }
 
-    @GetMapping("/{userId}")
-    public ResponseEntity<?> getTaskById(@PathVariable String userId) {
+    @GetMapping("/{username}")
+    public ResponseEntity<?> getTasksByUsername(@PathVariable String username) {
         try {
-            return new ResponseEntity<>(userServices.getUserById(userId), HttpStatus.CREATED);
+            return new ResponseEntity<>(userServices.getUserByUsername(username), HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>("ERROR", HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -66,8 +66,8 @@ public class UserController {
     @PostMapping
     public ResponseEntity<?> createUser(@RequestBody User user) {
         try {
-            if(user.getEmail()==null || user.getId()==null || user.getFullName()==null || user.getPassword()==null){
-                return new ResponseEntity<>("Invalid user creation. Please fill in id, fullName, email, and password.", HttpStatus.BAD_REQUEST);
+            if(user.getEmail()==null || user.getUsername()==null || user.getFullName()==null || user.getPassword()==null){
+                return new ResponseEntity<>("Invalid user creation. Please fill in username, fullName, email, and password.", HttpStatus.BAD_REQUEST);
             }
             User u = userServices.createUser(user);
             if (u == null)
@@ -78,8 +78,8 @@ public class UserController {
         }
     }
 
-    @PutMapping("/{userId}")
-    public ResponseEntity<?> updateUser(@PathVariable String userId, @RequestBody User user) {
+    @PutMapping("/{username}")
+    public ResponseEntity<?> updateUser(@PathVariable String username, @RequestBody User user) {
         try {
             System.out.println("LLEGO AL PUT");
             User u = userServices.updateUser(user);
@@ -91,10 +91,10 @@ public class UserController {
         }
     }
 
-    @DeleteMapping("/{userId}")
-    public ResponseEntity<?> deleteUser(@PathVariable String userId) {
+    @DeleteMapping("/{username}")
+    public ResponseEntity<?> deleteUser(@PathVariable String username) {
         try {
-            userServices.removeUser(userId);
+            userServices.removeUser(username);
             return new ResponseEntity<>("OK", HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>("ERROR", HttpStatus.INTERNAL_SERVER_ERROR);

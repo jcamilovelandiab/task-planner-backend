@@ -44,4 +44,5 @@ public class UserRepository implements IUserRepository {
     public User findByEmail(String userEmail) throws TaskPlannerException {
         return null;
     }
+
 }

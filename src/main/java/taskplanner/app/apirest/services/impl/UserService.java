@@ -33,11 +33,6 @@ public class UserService implements IUserServices {
     }
 
     @Override
-    public User getUserById(String userId) throws TaskPlannerException {
-        return userRepository.find(userId);
-    }
-
-    @Override
     public List<User> getUsers() throws TaskPlannerException {
         return userRepository.findAll();
     }
@@ -45,6 +40,11 @@ public class UserService implements IUserServices {
     @Override
     public User getUserByEmail(String userEmail) throws TaskPlannerException {
         return userRepository.findByEmail(userEmail);
+    }
+
+    @Override
+    public User getUserByUsername(String username) throws TaskPlannerException {
+        return userRepository.find(username);
     }
 
 }

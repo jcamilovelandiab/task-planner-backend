@@ -33,28 +33,28 @@ public class UserRepositoryStub implements IUserRepository {
 
     @Override
     public User save(User entity) throws TaskPlannerException {
-        if (users.containsKey(entity.getId())) {
+        if (users.containsKey(entity.getUsername())) {
             throw new TaskPlannerException("This user already exists");
         }
-        users.put(entity.getId(), entity);
-        return users.get(entity.getId());
+        users.put(entity.getUsername(), entity);
+        return users.get(entity.getUsername());
     }
 
     @Override
     public User update(User entity) throws TaskPlannerException {
-        if (!users.containsKey(entity.getId())) {
+        if (!users.containsKey(entity.getUsername())) {
             throw new TaskPlannerException("This user does not exist");
         }
-        User user = users.get(entity.getId());
+        User user = users.get(entity.getUsername());
         user = entity;
-        users.remove(user.getId());
-        users.put(user.getId(), user);
+        users.remove(user.getUsername());
+        users.put(user.getUsername(), user);
         return user;
     }
 
     @Override
     public void delete(User entity) throws TaskPlannerException {
-        users.remove(entity.getId());
+        users.remove(entity.getUsername());
     }
 
     @Override
