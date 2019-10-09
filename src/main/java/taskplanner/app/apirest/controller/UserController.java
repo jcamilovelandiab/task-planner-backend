@@ -27,16 +27,23 @@ public class UserController {
     @PostMapping("/login")
     public Token login(@RequestBody User login) throws ServletException {
         String jwtToken = "";
-        if (login.getEmail() == null || login.getPassword() == null) {
-            throw new ServletException("Please fill in email and password");
+        if ((login.getUsername()==null && login.getEmail() == null) || login.getPassword() == null) {
+            throw new ServletException("Please fill in email or username, and password");
         }
         User user = null;
-        try {
-            user = userServices.getUserByEmail(login.getEmail());
-        } catch (TaskPlannerException e) {
-            throw new ServletException("Email not found.");
+        if(login.getEmail()!=null){
+            try {
+                user = userServices.getUserByEmail(login.getEmail());
+            } catch (TaskPlannerException e) {
+                throw new ServletException("Email not found.");
+            }
+        }else if(login.getUsername()!=null){
+            try{
+                user = userServices.getUserByUsername(login.getUsername());
+            } catch (TaskPlannerException e) {
+                throw new ServletException("Username not found.");
+            }
         }
-        assert (user != null);
         if (!user.getPassword().equals(login.getPassword())) {
             throw new ServletException("Invalid login. Please check your email and password.");
         }
@@ -86,7 +93,7 @@ public class UserController {
     @PutMapping("/{username}")
     public ResponseEntity<?> updateUser(@PathVariable String username, @RequestBody User user) {
         try {
-            System.out.println("LLEGO AL PUT");
+            user.setUsername(username);
             User u = userServices.updateUser(user);
             if (u == null)
                 return new ResponseEntity<>("ERROR", HttpStatus.INTERNAL_SERVER_ERROR);
