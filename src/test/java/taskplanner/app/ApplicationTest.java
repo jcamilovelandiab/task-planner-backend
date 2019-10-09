@@ -26,5 +26,5 @@ public class ApplicationTest {
         Assert.assertEquals(userServices.getUserByUsername("camilotaskplanner").getUsername(),("camilotaskplanner"));
         Assert.assertEquals(userServices.getUserByEmail("camilo@gmail.com").getEmail(),("camilo@gmail.com"));
     }
-
+|
 }
