@@ -2,6 +2,9 @@ package taskplanner.app.apirest.controller;
 
 import javax.servlet.ServletException;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.jersey.JerseyProperties.Servlet;
@@ -25,31 +28,32 @@ public class UserController {
     IUserServices userServices;
 
     @PostMapping("/login")
-    public Token login(@RequestBody User login) throws ServletException {
+    public ResponseEntity<?> login(@RequestBody User login) throws ServletException {
         String jwtToken = "";
         if ((login.getUsername()==null && login.getEmail() == null) || login.getPassword() == null) {
-            throw new ServletException("Please fill in email or username, and password");
+            return new ResponseEntity<>("Please fill in email or username, and password", HttpStatus.BAD_REQUEST);
         }
         User user = null;
         if(login.getEmail()!=null){
             try {
                 user = userServices.getUserByEmail(login.getEmail());
             } catch (TaskPlannerException e) {
-                throw new ServletException("Email not found.");
+                return new ResponseEntity<>("Email not found.", HttpStatus.BAD_REQUEST);
             }
         }else if(login.getUsername()!=null){
             try{
                 user = userServices.getUserByUsername(login.getUsername());
             } catch (TaskPlannerException e) {
-                throw new ServletException("Username not found.");
+                return new ResponseEntity<>("Username not found.", HttpStatus.BAD_REQUEST);
             }
         }
         if (!user.getPassword().equals(login.getPassword())) {
-            throw new ServletException("Invalid login. Please check your email and password.");
+            return new ResponseEntity<>("Invalid login. Please check your email or username, and password.", HttpStatus.BAD_REQUEST);
         }
         jwtToken = Jwts.builder().setSubject(login.getEmail()).claim("roles", "user").setIssuedAt(new Date())
                 .signWith(SignatureAlgorithm.HS256, "secretkey").compact();
-        return new Token(jwtToken);
+        return new ResponseEntity<>( new Token(jwtToken, user.getFullName().split(" ")[0],
+                    user.getUsername(), user.getEmail()), HttpStatus.ACCEPTED);
     }
 
     @GetMapping
@@ -82,11 +86,13 @@ public class UserController {
             }catch (Exception e){
             }
             User u = userServices.createUser(user);
-            if (u == null)
-                return new ResponseEntity<>("ERROR", HttpStatus.INTERNAL_SERVER_ERROR);
-            return new ResponseEntity<>("OK", HttpStatus.CREATED);
+            if (u == null)  return new ResponseEntity<>("ERROR", HttpStatus.INTERNAL_SERVER_ERROR);
+            String jwtToken = Jwts.builder().setSubject(u.getEmail()).claim("roles", "user").setIssuedAt(new Date())
+                    .signWith(SignatureAlgorithm.HS256, "secretkey").compact();
+            return new ResponseEntity<>(new Token(jwtToken, user.getFullName().split(" ")[0],
+                    user.getUsername(), user.getEmail()), HttpStatus.CREATED);
         } catch (Exception e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_ACCEPTABLE);
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);
         }
     }
 
@@ -113,20 +119,14 @@ public class UserController {
         }
     }
 
+    @Getter
+    @Setter
+    @AllArgsConstructor
     public class Token {
         String accessToken;
-
-        public Token(String accessToken) {
-            this.accessToken = accessToken;
-        }
-
-        public String getAccessToken() {
-            return accessToken;
-        }
-
-        public void setAccessToken(String access_token) {
-            this.accessToken = access_token;
-        }
+        String fullName;
+        String username;
+        String email;
     }
 
 }
