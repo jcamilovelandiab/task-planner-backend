@@ -38,13 +38,13 @@ public class UserController {
             try {
                 user = userServices.getUserByEmail(login.getEmail());
             } catch (TaskPlannerException e) {
-                return new ResponseEntity<>("Email not found.", HttpStatus.BAD_REQUEST);
+                return new ResponseEntity<>("Invalid login. Please check your email or username, and password.", HttpStatus.BAD_REQUEST);
             }
         }else if(login.getUsername()!=null){
             try{
                 user = userServices.getUserByUsername(login.getUsername());
             } catch (TaskPlannerException e) {
-                return new ResponseEntity<>("Username not found.", HttpStatus.BAD_REQUEST);
+                return new ResponseEntity<>("Invalid login. Please check your email or username, and password.", HttpStatus.BAD_REQUEST);
             }
         }
         if (!user.getPassword().equals(login.getPassword())) {
