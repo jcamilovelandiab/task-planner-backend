@@ -65,7 +65,7 @@ public class UserController {
         }
     }
 
-    @GetMapping("/{username}")
+    @GetMapping("/{username}/tasks")
     public ResponseEntity<?> getTasksByUsername(@PathVariable String username) {
         try {
             return new ResponseEntity<>(userServices.getUserByUsername(username), HttpStatus.CREATED);
