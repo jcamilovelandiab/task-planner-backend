@@ -19,7 +19,7 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import java.util.Date;
 
 @RestController
-@RequestMapping(value = "v1/users")
+@RequestMapping(value = "api/users")
 @CrossOrigin(value = "*")
 public class UserController {
 

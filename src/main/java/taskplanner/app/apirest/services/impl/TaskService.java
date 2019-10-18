@@ -12,7 +12,7 @@ import taskplanner.app.apirest.services.ITaskServices;
 
 import java.util.List;
 
-@Component
+@Component("taskService")
 public class TaskService  implements ITaskServices {
 
     @Autowired

@@ -1,6 +1,7 @@
 package taskplanner.app.apirest.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.HttpStatus;
@@ -8,11 +9,12 @@ import taskplanner.app.apirest.entities.Task;
 import taskplanner.app.apirest.services.ITaskServices;
 
 @RestController
-@RequestMapping(value = "v1/tasks")
+@RequestMapping(value = "api/tasks")
 @CrossOrigin(value = "*")
 public class TaskController {
 
     @Autowired
+    @Qualifier("taskService")
     ITaskServices taskServices;
 
     @GetMapping
