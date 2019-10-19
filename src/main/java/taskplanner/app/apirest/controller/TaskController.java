@@ -39,7 +39,7 @@ public class TaskController {
     @PostMapping
     public ResponseEntity<?> createTask(@RequestBody Task task) {
         try {
-            if(task.getResponsible().getEmail()==null || task.getTitle()==null ||
+            if(task.getResponsible()==null || task.getResponsible().getEmail()==null || task.getTitle()==null ||
                task.getDueDate()==null || task.getStatus()==null ){
                 return new ResponseEntity<>("Please fill in title, due date, status, and responsible’s email", HttpStatus.BAD_REQUEST);
             }
