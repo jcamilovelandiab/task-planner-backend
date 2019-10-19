@@ -39,6 +39,10 @@ public class TaskController {
     @PostMapping
     public ResponseEntity<?> createTask(@RequestBody Task task) {
         try {
+            if(task.getResponsible().getEmail()==null || task.getTitle()==null ||
+               task.getDueDate()==null || task.getStatus()==null ){
+                return new ResponseEntity<>("Please fill in title, due date, status, and responsible’s email", HttpStatus.BAD_REQUEST);
+            }
             String uniqueID = UUID.randomUUID().toString();
             task.setId(uniqueID);
             Task t = taskServices.createTask(task);
