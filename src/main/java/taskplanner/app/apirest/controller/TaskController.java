@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.http.HttpStatus;
 import taskplanner.app.apirest.entities.Task;
 import taskplanner.app.apirest.services.ITaskServices;
+import java.util.UUID;
 
 @RestController
 @RequestMapping(value = "api/tasks")
@@ -38,9 +39,11 @@ public class TaskController {
     @PostMapping
     public ResponseEntity<?> createTask(@RequestBody Task task) {
         try {
+            String uniqueID = UUID.randomUUID().toString();
+            task.setId(uniqueID);
             Task t = taskServices.createTask(task);
             if(t==null) return new ResponseEntity<>("ERROR", HttpStatus.INTERNAL_SERVER_ERROR);
-            return new ResponseEntity<>("OK", HttpStatus.CREATED);
+            return new ResponseEntity<>(t, HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>("ERROR", HttpStatus.NOT_ACCEPTABLE);
         }

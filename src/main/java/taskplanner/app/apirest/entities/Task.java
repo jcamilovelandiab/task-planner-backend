@@ -20,6 +20,7 @@ public class Task implements Serializable {
 	 *
 	 */
 	private static final long serialVersionUID = 1L;
+
 	String id;
     String title;
     String status;
