@@ -6,7 +6,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.HttpStatus;
 import taskplanner.app.apirest.entities.Task;
+import taskplanner.app.apirest.entities.User;
 import taskplanner.app.apirest.services.ITaskServices;
+import taskplanner.app.apirest.services.IUserServices;
+
 import java.util.UUID;
 
 @RestController
@@ -17,6 +20,10 @@ public class TaskController {
     @Autowired
     @Qualifier("taskService")
     ITaskServices taskServices;
+
+    @Autowired
+    @Qualifier("userService")
+    IUserServices userServices;
 
     @GetMapping
     public ResponseEntity<?> getTasks() {
@@ -40,16 +47,20 @@ public class TaskController {
     public ResponseEntity<?> createTask(@RequestBody Task task) {
         try {
             if(task.getResponsible()==null || task.getResponsible().getEmail()==null || task.getTitle()==null ||
-               task.getDueDate()==null || task.getStatus()==null ){
+               task.getDueDate()==null || task.getStatus()==null ) {
                 return new ResponseEntity<>("Please fill in title, due date, status, and responsible’s email", HttpStatus.BAD_REQUEST);
             }
+            User responsible = task.getResponsible();
+            responsible.setFullName(userServices.getUserByEmail(responsible.getEmail()).getFullName());
+            task.setResponsible(responsible);
+
             String uniqueID = UUID.randomUUID().toString();
             task.setId(uniqueID);
             Task t = taskServices.createTask(task);
             if(t==null) return new ResponseEntity<>("ERROR", HttpStatus.INTERNAL_SERVER_ERROR);
             return new ResponseEntity<>(t, HttpStatus.CREATED);
         } catch (Exception e) {
-            return new ResponseEntity<>("ERROR", HttpStatus.NOT_ACCEPTABLE);
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_ACCEPTABLE);
         }
     }
 
