@@ -13,7 +13,7 @@ public interface TaskRepository extends MongoRepository<Task, String>{
 
     Task findBy_id(String id);
 
-    @Query(value = "{ 'user' : { $eq : ?0} }")
-    List<Task> findTasksByUserId(ObjectId _id);
+    @Query(value = "{ 'responsible' : { $eq : ?0} }")
+    List<Task> findTasksByResponsibleId(ObjectId _id);
 
 }

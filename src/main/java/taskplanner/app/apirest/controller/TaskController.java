@@ -52,7 +52,11 @@ public class TaskController {
                 return new ResponseEntity<>("Please fill in title, due date, status, and responsible’s email", HttpStatus.BAD_REQUEST);
             }
             User responsible = task.getResponsible();
-            responsible.setFullName(userServices.getUserByEmail(responsible.getEmail()).getFullName());
+            User u = userServices.getUserByEmail(responsible.getEmail());
+            responsible.setFullName(u.getFullName());
+            responsible.set_id(u.get_id());
+            responsible.setUsername(u.getUsername());
+
             task.setResponsible(responsible);
 
             Task t = taskServices.createTask(task);

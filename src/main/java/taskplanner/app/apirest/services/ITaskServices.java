@@ -16,5 +16,5 @@ public interface ITaskServices {
     Optional<Task> getTaskById(String taskId) throws TaskPlannerException;
 
     List<Task> getTasks() throws  TaskPlannerException;
-    List<Task> getTasksByUserId(String userId) throws TaskPlannerException;
+    List<Task> getTasksByResponsibleId(String userId) throws TaskPlannerException;
 }

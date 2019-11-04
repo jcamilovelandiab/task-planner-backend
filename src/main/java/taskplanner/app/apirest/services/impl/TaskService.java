@@ -23,7 +23,7 @@ public class TaskService  implements ITaskServices {
     public Task createTask(Task task) throws TaskPlannerException {
         task.set_id(ObjectId.get());
         taskRepository.save(task);
-        return taskRepository.findBy_id(task.getStrId());
+        return taskRepository.findBy_id(task.get_id().toString());
     }
 
     @Override
@@ -47,8 +47,8 @@ public class TaskService  implements ITaskServices {
     }
 
     @Override
-    public List<Task> getTasksByUserId(String user_id) throws TaskPlannerException {
-        return taskRepository.findTasksByUserId(new ObjectId(user_id));
+    public List<Task> getTasksByResponsibleId(String user_id) throws TaskPlannerException {
+        return taskRepository.findTasksByResponsibleId(new ObjectId(user_id));
     }
 
 }

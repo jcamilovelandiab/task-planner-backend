@@ -22,11 +22,11 @@ public class UserController {
     @Qualifier("userService")
     private IUserServices userServices;
 
-    @GetMapping("/{username}/tasks")
-    public ResponseEntity<?> getTasksByUsername(@PathVariable String username) {
+    @GetMapping("/{userId}/tasks")
+    public ResponseEntity<?> getTasksByUsername(@PathVariable String userId) {
         try {
-            User user = userServices.getUserByUsername(username);
-            return new ResponseEntity<>(taskServices.getTasksByUserId(user.get_id().toString()), HttpStatus.CREATED);
+            User user = userServices.getUserById(userId);
+            return new ResponseEntity<>(taskServices.getTasksByResponsibleId(userId), HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>("ERROR", HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -45,10 +45,9 @@ public class UserController {
         }
     }
 
-    @PutMapping("/{username}")
-    public ResponseEntity<?> updateUser(@PathVariable String username, @RequestBody User user) {
+    @PutMapping
+    public ResponseEntity<?> updateUser(@RequestBody User user) {
         try {
-            user.setUsername(username);
             userServices.updateUser(user);
             return new ResponseEntity<>("OK", HttpStatus.OK);
         } catch (Exception e) {

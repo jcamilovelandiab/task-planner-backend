@@ -25,7 +25,6 @@ public class Task implements Serializable {
 
     @Id
     private ObjectId _id;
-	String strId;
     String title;
     String status;
     String dueDate;
