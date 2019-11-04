@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import taskplanner.app.apirest.TaskPlannerApp;
-import taskplanner.app.apirest.entities.User;
+import taskplanner.app.apirest.data.entities.User;
 import taskplanner.app.apirest.services.IUserServices;
 import org.junit.Assert;
 

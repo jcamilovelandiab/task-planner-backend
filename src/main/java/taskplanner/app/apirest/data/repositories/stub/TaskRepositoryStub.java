@@ -1,9 +1,9 @@
-package taskplanner.app.apirest.repositories.stub;
+package taskplanner.app.apirest.data.repositories.stub;
 
-import taskplanner.app.apirest.entities.Task;
-import taskplanner.app.apirest.entities.User;
+import taskplanner.app.apirest.data.entities.Task;
+import taskplanner.app.apirest.data.entities.User;
+import taskplanner.app.apirest.data.repositories.ITaskRepository;
 import taskplanner.app.apirest.exception.TaskPlannerException;
-import taskplanner.app.apirest.repositories.ITaskRepository;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -12,7 +12,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
-
+/*
 @Component
 @Qualifier("taskRepositoryStub")
 public class TaskRepositoryStub implements ITaskRepository {
@@ -84,4 +84,4 @@ public class TaskRepositoryStub implements ITaskRepository {
     public void remove(String pkEntity) throws TaskPlannerException {
         tasks.remove(pkEntity);
     }
-}
+}*/

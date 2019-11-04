@@ -1,22 +1,13 @@
 package taskplanner.app.apirest.controller;
 
-import javax.servlet.ServletException;
-
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.boot.autoconfigure.jersey.JerseyProperties.Servlet;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import taskplanner.app.apirest.entities.User;
-import taskplanner.app.apirest.exception.TaskPlannerException;
+import taskplanner.app.apirest.data.entities.User;
+import taskplanner.app.apirest.services.ITaskServices;
 import taskplanner.app.apirest.services.IUserServices;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
-import java.util.Date;
 
 @RestController
 @RequestMapping(value = "api/users")
@@ -24,22 +15,31 @@ import java.util.Date;
 public class UserController {
 
     @Autowired
-    @Qualifier("userService")
-    IUserServices userServices;
+    @Qualifier("taskService")
+    private ITaskServices taskServices;
 
-    @GetMapping
-    public ResponseEntity<?> getUsers() {
+    @Autowired
+    @Qualifier("userService")
+    private IUserServices userServices;
+
+    @GetMapping("/{username}/tasks")
+    public ResponseEntity<?> getTasksByUsername(@PathVariable String username) {
         try {
-            return new ResponseEntity<>(userServices.getUsers(), HttpStatus.OK);
+            User user = userServices.getUserByUsername(username);
+            return new ResponseEntity<>(taskServices.getTasksByUserId(user.get_id().toString()), HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>("ERROR", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
-    @GetMapping("/{username}/tasks")
-    public ResponseEntity<?> getTasksByUsername(@PathVariable String username) {
+    @GetMapping("/{userId}")
+    public ResponseEntity<?> getUserById(@PathVariable String userId) {
         try {
-            return new ResponseEntity<>(userServices.getUserByUsername(username), HttpStatus.CREATED);
+            User user = userServices.getUserById(userId);
+            if(user==null){
+                return new ResponseEntity<>("ERROR", HttpStatus.NOT_FOUND);
+            }
+            return new ResponseEntity<>(user, HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>("ERROR", HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -49,9 +49,7 @@ public class UserController {
     public ResponseEntity<?> updateUser(@PathVariable String username, @RequestBody User user) {
         try {
             user.setUsername(username);
-            User u = userServices.updateUser(user);
-            if (u == null)
-                return new ResponseEntity<>("ERROR", HttpStatus.INTERNAL_SERVER_ERROR);
+            userServices.updateUser(user);
             return new ResponseEntity<>("OK", HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>("ERROR", HttpStatus.NOT_ACCEPTABLE);

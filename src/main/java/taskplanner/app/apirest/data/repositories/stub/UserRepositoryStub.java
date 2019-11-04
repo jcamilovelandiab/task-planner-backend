@@ -1,9 +1,7 @@
-package taskplanner.app.apirest.repositories.stub;
+package taskplanner.app.apirest.data.repositories.stub;
 
-import taskplanner.app.apirest.entities.User;
+import taskplanner.app.apirest.data.entities.User;
 import taskplanner.app.apirest.exception.TaskPlannerException;
-import taskplanner.app.apirest.repositories.IUserRepository;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -12,6 +10,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
+/*
 @Component
 @Qualifier("userRepositoryStub")
 public class UserRepositoryStub implements IUserRepository {
@@ -79,3 +78,4 @@ public class UserRepositoryStub implements IUserRepository {
     }
 
 }
+*/

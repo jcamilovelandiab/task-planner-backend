@@ -1,4 +1,4 @@
-package taskplanner.app.apirest.repositories;
+package taskplanner.app.apirest.data.repositories;
 
 import java.io.Serializable;
 import java.util.List;

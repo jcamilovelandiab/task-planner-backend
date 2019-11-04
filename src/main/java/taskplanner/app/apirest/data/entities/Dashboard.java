@@ -1,4 +1,4 @@
-package taskplanner.app.apirest.entities;
+package taskplanner.app.apirest.data.entities;
 
 import java.util.List;
 

@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import taskplanner.app.apirest.entities.User;
+import taskplanner.app.apirest.data.entities.User;
 import taskplanner.app.apirest.exception.TaskPlannerException;
 import taskplanner.app.apirest.services.IUserServices;
 
@@ -52,7 +52,7 @@ public class LoginController {
         jwtToken = Jwts.builder().setSubject(login.getEmail()).claim("roles", "user").setIssuedAt(new Date())
                 .signWith(SignatureAlgorithm.HS256, "secretkey").compact();
         return new ResponseEntity<>( new Token(jwtToken, user.getFullName().split(" ")[0],
-                user.getUsername(), user.getEmail()), HttpStatus.ACCEPTED);
+                user.getUsername(), user.getEmail(), user.get_id().toString()), HttpStatus.ACCEPTED);
     }
 
     @PostMapping
@@ -63,18 +63,21 @@ public class LoginController {
             }
             try{
                 User u = userServices.getUserByEmail(user.getEmail());
-                if(u!=null) return new ResponseEntity<>("This email is already associated with an account", HttpStatus.BAD_REQUEST);
+                if(u!=null) return new ResponseEntity<>("This email is already associated with an account!", HttpStatus.CONFLICT);
+                u = userServices.getUserByUsername(user.getUsername());
+                if(u!=null) return new ResponseEntity<>("This username has already been taken!", HttpStatus.CONFLICT);
             }catch (Exception e){
             }
             User u = userServices.createUser(user);
+
             if (u == null)  return new ResponseEntity<>("ERROR", HttpStatus.INTERNAL_SERVER_ERROR);
 
             String jwtToken = Jwts.builder().setSubject(u.getEmail()).claim("roles", "user").setIssuedAt(new Date())
                     .signWith(SignatureAlgorithm.HS256, "secretkey").compact();
             return new ResponseEntity<>(new Token(jwtToken, user.getFullName().split(" ")[0],
-                    user.getUsername(), user.getEmail()), HttpStatus.CREATED);
+                    user.getUsername(), user.getEmail(), user.get_id().toString()), HttpStatus.CREATED);
         } catch (Exception e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -86,6 +89,7 @@ public class LoginController {
         String fullName;
         String username;
         String email;
+        String id;
     }
 
 }

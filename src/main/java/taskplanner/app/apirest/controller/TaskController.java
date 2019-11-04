@@ -5,8 +5,8 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.HttpStatus;
-import taskplanner.app.apirest.entities.Task;
-import taskplanner.app.apirest.entities.User;
+import taskplanner.app.apirest.data.entities.Task;
+import taskplanner.app.apirest.data.entities.User;
 import taskplanner.app.apirest.services.ITaskServices;
 import taskplanner.app.apirest.services.IUserServices;
 
@@ -17,13 +17,14 @@ import java.util.UUID;
 @CrossOrigin(value = "*")
 public class TaskController {
 
+
     @Autowired
     @Qualifier("taskService")
-    ITaskServices taskServices;
+    private ITaskServices taskServices;
 
     @Autowired
     @Qualifier("userService")
-    IUserServices userServices;
+    private IUserServices userServices;
 
     @GetMapping
     public ResponseEntity<?> getTasks() {
@@ -54,8 +55,6 @@ public class TaskController {
             responsible.setFullName(userServices.getUserByEmail(responsible.getEmail()).getFullName());
             task.setResponsible(responsible);
 
-            String uniqueID = UUID.randomUUID().toString();
-            task.setId(uniqueID);
             Task t = taskServices.createTask(task);
             if(t==null) return new ResponseEntity<>("ERROR", HttpStatus.INTERNAL_SERVER_ERROR);
             return new ResponseEntity<>(t, HttpStatus.CREATED);
@@ -67,8 +66,7 @@ public class TaskController {
     @PutMapping("/{taskId}")
     public ResponseEntity<?>  updateTask(@PathVariable String taskId, @RequestBody Task task) {
         try {
-            Task t = taskServices.updateTask(task);
-            if(t==null) return new ResponseEntity<>("ERROR", HttpStatus.INTERNAL_SERVER_ERROR);
+            taskServices.updateTask(task);
             return new ResponseEntity<>("OK",HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>("ERROR", HttpStatus.NOT_ACCEPTABLE);

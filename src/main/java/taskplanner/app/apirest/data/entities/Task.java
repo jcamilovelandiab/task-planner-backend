@@ -1,4 +1,4 @@
-package taskplanner.app.apirest.entities;
+package taskplanner.app.apirest.data.entities;
 
 import java.io.Serializable;
 
@@ -7,7 +7,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-
+import org.bson.types.ObjectId;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 
 @Getter
 @Setter
@@ -21,11 +23,14 @@ public class Task implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	String id;
+    @Id
+    private ObjectId _id;
+	String strId;
     String title;
     String status;
     String dueDate;
     String description;
+    @DBRef
     User responsible;
 
 }

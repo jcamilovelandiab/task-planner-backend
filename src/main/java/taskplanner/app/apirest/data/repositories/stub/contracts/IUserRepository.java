@@ -1,7 +1,7 @@
-package taskplanner.app.apirest.repositories;
+package taskplanner.app.apirest.data.repositories;
 
 import org.springframework.stereotype.Repository;
-import taskplanner.app.apirest.entities.User;
+import taskplanner.app.apirest.data.entities.User;
 import taskplanner.app.apirest.exception.TaskPlannerException;
 
 @Repository

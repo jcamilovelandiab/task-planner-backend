@@ -1,11 +1,11 @@
 package taskplanner.app.apirest.services.impl;
 
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
-import taskplanner.app.apirest.entities.User;
+import taskplanner.app.apirest.data.entities.User;
+import taskplanner.app.apirest.data.repositories.impl.UserRepository;
 import taskplanner.app.apirest.exception.TaskPlannerException;
-import taskplanner.app.apirest.repositories.IUserRepository;
 import taskplanner.app.apirest.services.IUserServices;
 
 import java.util.List;
@@ -14,22 +14,23 @@ import java.util.List;
 public class UserService implements IUserServices {
 
     @Autowired
-    @Qualifier("userRepositoryStub")
-    private IUserRepository userRepository;
+    private UserRepository userRepository;
 
     @Override
     public User createUser(User user) throws TaskPlannerException {
-        return userRepository.save(user);
+        user.set_id(ObjectId.get());
+        userRepository.save(user);
+        return userRepository.findBy_id(user.get_id().toString());
     }
 
     @Override
-    public User updateUser(User user) throws TaskPlannerException {
-        return userRepository.update(user);
+    public void updateUser(User user) throws TaskPlannerException {
+        userRepository.save(user);
     }
 
     @Override
     public void removeUser(String userId) throws TaskPlannerException {
-        userRepository.remove(userId);
+        userRepository.deleteById(userId);
     }
 
     @Override
@@ -44,7 +45,12 @@ public class UserService implements IUserServices {
 
     @Override
     public User getUserByUsername(String username) throws TaskPlannerException {
-        return userRepository.find(username);
+        return userRepository.findByUsername(username);
+    }
+
+    @Override
+    public User getUserById(String _id) throws TaskPlannerException {
+        return userRepository.findBy_id(_id);
     }
 
 }
