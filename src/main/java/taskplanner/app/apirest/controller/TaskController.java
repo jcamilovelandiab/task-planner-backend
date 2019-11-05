@@ -47,6 +47,7 @@ public class TaskController {
     @PostMapping
     public ResponseEntity<?> createTask(@RequestBody Task task) {
         try {
+            System.out.println(task);
             if(task.getResponsible()==null || task.getResponsible().getEmail()==null || task.getTitle()==null ||
                task.getDueDate()==null || task.getStatus()==null ) {
                 return new ResponseEntity<>("Please fill in title, due date, status, and responsible’s email", HttpStatus.BAD_REQUEST);
@@ -56,8 +57,8 @@ public class TaskController {
             responsible.setFullName(u.getFullName());
             responsible.set_id(u.get_id());
             responsible.setUsername(u.getUsername());
-
             task.setResponsible(responsible);
+            System.out.println(task);
 
             Task t = taskServices.createTask(task);
             if(t==null) return new ResponseEntity<>("ERROR", HttpStatus.INTERNAL_SERVER_ERROR);
