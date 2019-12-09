@@ -26,6 +26,15 @@ public class LoginController {
     @Qualifier("userService")
     IUserServices userServices;
 
+    @GetMapping
+    public ResponseEntity<?> getUsers(){
+        try{
+            return new ResponseEntity<>(userServices.getUsers(), HttpStatus.OK);
+        }catch (Exception ex){
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody User login) throws ServletException {
         String jwtToken = "";
