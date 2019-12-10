@@ -26,6 +26,11 @@ public class LoginController {
     @Qualifier("userService")
     IUserServices userServices;
 
+    @GetMapping("/hello")
+    public String hello(){
+        return "Hello!. This is the users controller. TASK PLANNER!";
+    }
+
     @GetMapping
     public ResponseEntity<?> getUsers(){
         try{
